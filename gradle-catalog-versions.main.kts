@@ -96,7 +96,12 @@ gradleFiles.forEach { gradleFile ->
                 versionsMap[moduleVersionName] = moduleVersion
             }
 
+            if (moduleGroup.startsWith("org.jetbrains.kotlin")) {
+                moduleVersionName = "kotlin"
+            }
+
             val moduleVersionNameSnakeCase = moduleVersionName.camelToSnakeCase()
+                .replace(".", "-")
                 .replace("-interface", "-api")
                 .replace("-version", "")
 
