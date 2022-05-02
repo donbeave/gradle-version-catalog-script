@@ -100,6 +100,11 @@ gradleFiles.forEach { gradleFile ->
                 moduleVersionName = "kotlin"
             }
 
+            if (moduleGroup.startsWith("org.testcontainers") &&
+                !moduleVersionName.startsWith("testcontainers")) {
+                moduleVersionName = "testcontainers-${moduleVersionName}"
+            }
+
             val moduleVersionNameSnakeCase = moduleVersionName.camelToSnakeCase()
                 .replace(".", "-")
                 .replace("-interface", "-api")
