@@ -124,7 +124,7 @@ gradleFiles.forEach { gradleFile ->
 
     println("Overriding ${gradleFile.absolutePath}")
 
-    //gradleFile.writeText(text)
+    gradleFile.writeText(text)
 }
 
 val gradleFile = File("gradle/libs.versions.toml")
@@ -188,4 +188,4 @@ val text = "[versions]\n${versionsString}\n\n[libraries]\n${librariesString}\n"
 
 println(text)
 
-//gradleFile.writeText(text)
+gradleFile.writeText(text)
