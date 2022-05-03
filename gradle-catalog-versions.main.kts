@@ -94,6 +94,11 @@ gradleFiles.forEach { gradleFile ->
             moduleAlias = "rxjava3"
         }
 
+        if (moduleGroup.equals("org.graalvm.nativeimage") &&
+            moduleName.equals("svm")) {
+            moduleAlias = "graal"
+        }
+
         if (moduleParts.size == 3) {
             val moduleVersion = moduleParts[2]
             var moduleVersionName = moduleName
