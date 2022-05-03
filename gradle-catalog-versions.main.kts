@@ -79,6 +79,11 @@ gradleFiles.forEach { gradleFile ->
 
         moduleAlias = moduleAlias.replace(".", "-")
 
+        if (moduleGroup.startsWith("org.testcontainers") &&
+            !moduleAlias.startsWith("testcontainers")) {
+            moduleAlias = "testcontainers-${moduleAlias}"
+        }
+
         if (moduleParts.size == 3) {
             val moduleVersion = moduleParts[2]
             var moduleVersionName = moduleName
