@@ -113,6 +113,11 @@ gradleFiles.forEach { gradleFile ->
                 .replace("-interface", "-api")
                 .replace("-version", "")
 
+            if (versionsMap[moduleVersionName] == null) {
+                lineList.add(it)
+                return@forEachLine
+            }
+
             versions[moduleVersionNameSnakeCase] = versionsMap[moduleVersionName]!!
 
             libraries[moduleAlias] =
