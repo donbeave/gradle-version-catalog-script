@@ -17,7 +17,7 @@ val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
 val snakeRegex = "_[a-zA-Z]".toRegex()
 
 val dependenciesRegex = ("^(\\s+)(annotationProcessor|api|implementation|compileOnly|testImplementation" +
-        "|testCompileOnly" +
+        "|testCompileOnly|testRuntimeOnly" +
         "|testAnnotationProcessor|kaptTest|kapt)[\\s+]?[(]?[\\'\\\"]?(platform\\()?[\\'\\\"]([\\w\\" +
         ".\\:\\-\\\$\\{\\}]+)[\\'\\\"][\\)]?([\\s]+)?").toRegex()
 
@@ -39,11 +39,13 @@ File(".").walk().forEach { file ->
 
 File("gradle.properties").forEachLine {
     if (it.contains("Version")) {
-        val parts = it.split("=")
-        val part1 = parts[0].trim().strip()
-        val part2 = parts[1].trim().strip()
+        if (it.contains("=")) {
+            val parts = it.split("=")
+            val part1 = parts[0].trim().strip()
+            val part2 = parts[1].trim().strip()
 
-        versionsMap[part1] = part2
+            versionsMap[part1] = part2
+        }
     }
 }
 
@@ -115,10 +117,14 @@ gradleFiles.forEach { gradleFile ->
                 .replace("-interface", "-api")
                 .replace("-version", "")
 
-            versions[moduleVersionNameSnakeCase] = versionsMap[moduleVersionName]!!
+            if (versionsMap[moduleVersionName] == null) {
+                return@forEachLine
+            } else {
+                versions[moduleVersionNameSnakeCase] = versionsMap[moduleVersionName]!!
 
-            libraries[moduleAlias] =
-                ModuleVersion(module = "${moduleGroup}:${moduleName}", version = moduleVersionNameSnakeCase)
+                libraries[moduleAlias] =
+                    ModuleVersion(module = "${moduleGroup}:${moduleName}", version = moduleVersionNameSnakeCase)
+            }
         } else {
             libraries[moduleAlias] =
                 ModuleVersion(module = "${moduleGroup}:${moduleName}", version = null)
