@@ -17,7 +17,7 @@ val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
 val snakeRegex = "_[a-zA-Z]".toRegex()
 
 val dependenciesRegex = ("^(\\s+)(annotationProcessor|api|implementation|compileOnly|testImplementation" +
-        "|testCompileOnly" +
+        "|testCompileOnly|testRuntimeOnly" +
         "|testAnnotationProcessor|kaptTest|kapt)[\\s+]?[(]?[\\'\\\"]?(platform\\()?[\\'\\\"]([\\w\\" +
         ".\\:\\-\\\$\\{\\}]+)[\\'\\\"][\\)]?([\\s]+)?").toRegex()
 
