@@ -84,6 +84,16 @@ gradleFiles.forEach { gradleFile ->
             moduleAlias = "testcontainers-${moduleAlias}"
         }
 
+        if (moduleGroup.equals("io.reactivex.rxjava2") &&
+            moduleName.equals("rxjava")) {
+            moduleAlias = "rxjava2"
+        }
+
+        if (moduleGroup.equals("io.reactivex.rxjava3") &&
+            moduleName.equals("rxjava")) {
+            moduleAlias = "rxjava3"
+        }
+
         if (moduleParts.size == 3) {
             val moduleVersion = moduleParts[2]
             var moduleVersionName = moduleName
@@ -111,6 +121,16 @@ gradleFiles.forEach { gradleFile ->
             if (moduleGroup.equals("org.graalvm.nativeimage") &&
                 moduleName.equals("svm")) {
                 moduleVersionName = "graal"
+            }
+
+            if (moduleGroup.equals("io.reactivex.rxjava2") &&
+                moduleName.equals("rxjava")) {
+                moduleVersionName = "rxjava2"
+            }
+
+            if (moduleGroup.equals("io.reactivex.rxjava3") &&
+                moduleName.equals("rxjava")) {
+                moduleVersionName = "rxjava3"
             }
 
             val moduleVersionNameSnakeCase = moduleVersionName.camelToSnakeCase()
