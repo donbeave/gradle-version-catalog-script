@@ -105,6 +105,11 @@ gradleFiles.forEach { gradleFile ->
                 moduleVersionName = "testcontainers-${moduleVersionName}"
             }
 
+            if (moduleGroup.equals("org.graalvm.nativeimage") &&
+                moduleName.equals("svm")) {
+                moduleVersionName = "graal"
+            }
+
             val moduleVersionNameSnakeCase = moduleVersionName.camelToSnakeCase()
                 .replace(".", "-")
                 .replace("-interface", "-api")
