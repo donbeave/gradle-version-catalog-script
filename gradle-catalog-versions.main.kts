@@ -17,7 +17,7 @@ val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
 val snakeRegex = "_[a-zA-Z]".toRegex()
 
 val dependenciesRegex = ("^(\\s+)(annotationProcessor|api|implementation|compileOnly|testImplementation" +
-        "|testCompileOnly|testRuntimeOnly" +
+        "|testCompileOnly" +
         "|testAnnotationProcessor|kaptTest|kapt)[\\s+]?[(]?[\\'\\\"]?(platform\\()?[\\'\\\"]([\\w\\" +
         ".\\:\\-\\\$\\{\\}]+)[\\'\\\"][\\)]?([\\s]+)?").toRegex()
 
@@ -39,13 +39,11 @@ File(".").walk().forEach { file ->
 
 File("gradle.properties").forEachLine {
     if (it.contains("Version")) {
-        if (it.contains("=")) {
-            val parts = it.split("=")
-            val part1 = parts[0].trim().strip()
-            val part2 = parts[1].trim().strip()
+        val parts = it.split("=")
+        val part1 = parts[0].trim().strip()
+        val part2 = parts[1].trim().strip()
 
-            versionsMap[part1] = part2
-        }
+        versionsMap[part1] = part2
     }
 }
 
@@ -66,8 +64,6 @@ gradleFiles.forEach { gradleFile ->
         val type = matchResult.groups[2]!!.value
         val dependencyNotation = matchResult.groups[4]!!.value
         val isPlatform = matchResult.groups[3]?.value == "platform("
-
-        val parts = it.split("\"")
 
         val moduleParts = dependencyNotation.split(":")
 
@@ -117,15 +113,10 @@ gradleFiles.forEach { gradleFile ->
                 .replace("-interface", "-api")
                 .replace("-version", "")
 
-            if (versionsMap[moduleVersionName] == null) {
-                lineList.add(it)
-                return@forEachLine
-            } else {
-                versions[moduleVersionNameSnakeCase] = versionsMap[moduleVersionName]!!
+            versions[moduleVersionNameSnakeCase] = versionsMap[moduleVersionName]!!
 
-                libraries[moduleAlias] =
-                    ModuleVersion(module = "${moduleGroup}:${moduleName}", version = moduleVersionNameSnakeCase)
-            }
+            libraries[moduleAlias] =
+                ModuleVersion(module = "${moduleGroup}:${moduleName}", version = moduleVersionNameSnakeCase)
         } else {
             libraries[moduleAlias] =
                 ModuleVersion(module = "${moduleGroup}:${moduleName}", version = null)
