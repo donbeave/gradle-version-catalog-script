@@ -118,6 +118,7 @@ gradleFiles.forEach { gradleFile ->
                 .replace("-version", "")
 
             if (versionsMap[moduleVersionName] == null) {
+                lineList.add(it)
                 return@forEachLine
             } else {
                 versions[moduleVersionNameSnakeCase] = versionsMap[moduleVersionName]!!
